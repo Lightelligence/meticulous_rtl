@@ -7,7 +7,7 @@ def mrtl_test(name, srcs, tags=[]):
         srcs = ["@lintworks//:main"],
         data = data,
         args = [
-            "--rc $(location @meticulous_uvm//:mrtl/lw_rc.py)",
+            "--rc $(location @meticulous_rtl//:mrtl/lw_rc.py)",
             " ".join(["$(locations {})".format(s) for s in srcs]),
         ],
         main = "@lintworks//:main.py", # Seems silly that this is necessary
