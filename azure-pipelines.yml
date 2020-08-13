@@ -4,7 +4,7 @@ trigger:
 stages:
   - stage: 'all'
     pool:
-      name: CI
+      name: CI_no_license
     jobs:
     - job: 'bazel_tests'
       displayName: 'Bazel Tests'
