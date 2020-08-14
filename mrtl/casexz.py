@@ -12,12 +12,12 @@ class CaseXZ(filters.LineListener):
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
-    wildcard_re = re.compile("^\s*case[xz]")
+    casexz_re = re.compile("^\s*case[xz]")
     
-    ERROR_MSG = "Do not use casex. Unsafe why?" # FIXME better message
+    ERROR_MSG = "Do not use casex or casez. Unsafe why?" # FIXME better message
 
     def _update(self, line_no, line):
-        if self.wildcard_re.search(line):
+        if self.casexz_re.search(line):
             self.error(line_no, line, self.ERROR_MSG)
 
     update_moduleline = _update

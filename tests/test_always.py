@@ -25,7 +25,7 @@ class AlwaysTestCase(test.TestCase):
 
 
     def test_always_latch(self):
-        """An illegal widlcard"""
+        """An illegal always_latch"""
         content = StringIO("""
         module foo;
           always_latch (signal):
@@ -39,7 +39,7 @@ class AlwaysTestCase(test.TestCase):
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, Always.ERROR_MSG)
 
     def test_always_ff(self):
-        """An illegal widlcard"""
+        """OK always_ff block"""
         content = StringIO("""
         module foo;
           always_ff (signal):
@@ -53,7 +53,7 @@ class AlwaysTestCase(test.TestCase):
             iut.error.assert_not_called()
 
     def test_always_comb(self):
-        """An illegal widlcard"""
+        """OK always_comb block"""
         content = StringIO("""
         module foo;
           always_comb (signal):
@@ -67,7 +67,7 @@ class AlwaysTestCase(test.TestCase):
             iut.error.assert_not_called()
 
     def test_always(self):
-        """An illegal widlcard"""
+        """An illegal always block"""
         content = StringIO("""
         module foo;
           always (signal):
@@ -78,7 +78,7 @@ class AlwaysTestCase(test.TestCase):
         with mock.patch.object(self.cut, "error", autospec=True):
             lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
-            iut.error.assert_not_called()
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, Always.ERROR_MSG)
             
 if __name__ == '__main__':
     unittest.main()
