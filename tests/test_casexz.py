@@ -9,6 +9,7 @@ import test
 
 lbc = filters.LineBroadcaster
 
+
 class CaseXZTestCase(test.TestCase):
 
     cut = CaseXZ
@@ -19,7 +20,11 @@ class CaseXZTestCase(test.TestCase):
         some other content
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
-            lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(self.cut))
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
 
@@ -33,7 +38,11 @@ class CaseXZTestCase(test.TestCase):
         endmodule
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
-            lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(self.cut))
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, CaseXZ.ERROR_MSG)
 
@@ -47,7 +56,11 @@ class CaseXZTestCase(test.TestCase):
         endmodule
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
-            lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(self.cut))
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, CaseXZ.ERROR_MSG)
 
@@ -61,10 +74,14 @@ class CaseXZTestCase(test.TestCase):
         endmodule
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
-            lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(self.cut))
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
 
-            
+
 if __name__ == '__main__':
     unittest.main()

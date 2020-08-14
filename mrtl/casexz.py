@@ -7,6 +7,7 @@ import re
 # Meticulous RTL imports
 from mrtl import filters
 
+
 class CaseXZ(filters.LineListener):
     """ 
     SystemVerilog introduced the case...inside statement to replace casex and casez.
@@ -21,7 +22,7 @@ class CaseXZ(filters.LineListener):
     subscribe_to = [filters.ModuleLineBroadcaster]
 
     casexz_re = re.compile("^\s*case[xz]")
-    
+
     ERROR_MSG = "casex or casez detected. Use case...inside"
 
     def _update(self, line_no, line):
