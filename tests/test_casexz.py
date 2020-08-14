@@ -24,10 +24,10 @@ class CaseXZTestCase(test.TestCase):
             iut.error.assert_not_called()
 
     def test_casex(self):
-        """An illegal widlcard"""
+        """An illegal casex"""
         content = StringIO("""
         module foo;
-          casex (signal):
+          casex (signal)
             FOO : nothing;
           endcase
         endmodule
@@ -38,10 +38,10 @@ class CaseXZTestCase(test.TestCase):
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, CaseXZ.ERROR_MSG)
 
     def test_casez(self):
-        """An illegal widlcard"""
+        """An illegal casez"""
         content = StringIO("""
         module foo;
-          casez (signal):
+          casez (signal)
             FOO : nothing;
           endcase
         endmodule
@@ -52,10 +52,10 @@ class CaseXZTestCase(test.TestCase):
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, CaseXZ.ERROR_MSG)
 
     def test_case(self):
-        """An illegal widlcard"""
+        """OK case usage"""
         content = StringIO("""
         module foo;
-          case (signal):
+          case (signal)
             FOO : nothing;
           endcase
         endmodule
