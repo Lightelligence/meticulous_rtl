@@ -9,6 +9,7 @@ import test
 
 lbc = filters.LineBroadcaster
 
+
 class MultipleModulesTestCase(test.TestCase):
     cut = MultipleModules
 
@@ -22,7 +23,11 @@ class MultipleModulesTestCase(test.TestCase):
             content.write("  more boring content\n")
         content = StringIO(content.getvalue())
         with mock.patch.object(self.cut, "error", autospec=True):
-            lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(self.cut))
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
 
@@ -40,10 +45,14 @@ class MultipleModulesTestCase(test.TestCase):
         content.write("endmodule : barfoo\n")
         content = StringIO(content.getvalue())
         with mock.patch.object(self.cut, "error", autospec=True):
-            lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(self.cut))
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_called_with(mock.ANY, 22, mock.ANY, "One module per file please: first module on 0")
 
-            
+
 if __name__ == "__main__":
     unittest.main()
