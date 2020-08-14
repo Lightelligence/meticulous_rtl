@@ -28,9 +28,10 @@ class AlwaysTestCase(test.TestCase):
         """An illegal always_latch"""
         content = StringIO("""
         module foo;
-          always_latch (signal):
-            FOO : nothing;
-          endcase
+          always_latch
+			begin
+				FOO : nothing;
+			end
         endmodule
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
@@ -39,12 +40,13 @@ class AlwaysTestCase(test.TestCase):
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, Always.ERROR_MSG)
 
     def test_always_ff(self):
-        """OK always_ff block"""
+        """An OK always_ff block"""
         content = StringIO("""
         module foo;
-          always_ff (signal):
-            FOO : nothing;
-          endcase
+          always_ff @(signal)
+			begin
+            	FOO : nothing;
+			end
         endmodule
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
@@ -53,12 +55,13 @@ class AlwaysTestCase(test.TestCase):
             iut.error.assert_not_called()
 
     def test_always_comb(self):
-        """OK always_comb block"""
+        """An OK always_comb block"""
         content = StringIO("""
         module foo;
           always_comb (signal):
-            FOO : nothing;
-          endcase
+			begin
+            	FOO : nothing;
+          	end
         endmodule
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
@@ -70,9 +73,10 @@ class AlwaysTestCase(test.TestCase):
         """An illegal always block"""
         content = StringIO("""
         module foo;
-          always (signal):
-            FOO : nothing;
-          endcase
+          always @(signal)
+			begin
+            	FOO : nothing;
+          	end
         endmodule
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
