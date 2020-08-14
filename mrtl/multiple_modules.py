@@ -20,7 +20,6 @@ class MultipleModules(filters.LineListener):
     """
     subscribe_to = [filters.BeginModuleBroadcaster]
 
-
     def __init__(self, filename, fstream, *args, **kwargs):
         super(MultipleModules, self).__init__(filename, fstream, *args, **kwargs)
         self.found_a_module_on_line = -1

@@ -6,6 +6,7 @@ from mrtl import filters
 
 import test
 
+
 class ModuleTestCase(test.TestCase):
 
     def test_simple(self):
@@ -46,9 +47,8 @@ class ModuleTestCase(test.TestCase):
         with mock.patch.object(cut, "broadcast", autospec=True):
             lb = lbc("/stuff/foobar.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(cut))
             iut = self.get_listener(lb, cut)
-            iut.broadcast.assert_has_calls([
-                mock.call(mock.ANY, 2, mock.ANY),
-                mock.call(mock.ANY, 3, mock.ANY)])
+            iut.broadcast.assert_has_calls([mock.call(mock.ANY, 2, mock.ANY), mock.call(mock.ANY, 3, mock.ANY)])
+
 
 if __name__ == '__main__':
     unittest.main()

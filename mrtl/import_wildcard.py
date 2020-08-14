@@ -7,6 +7,7 @@ import re
 # Meticulous RTL imports
 from mrtl import filters
 
+
 class ImportWildcard(filters.LineListener):
     """Ban import packages by wildcard.
 
@@ -26,7 +27,7 @@ class ImportWildcard(filters.LineListener):
     subscribe_to = [filters.ModuleLineBroadcaster]
 
     wildcard_re = re.compile("^\s*import\s*.*::\*;")
-    
+
     ERROR_MSG = "Do not use wildcard imports. Explicitly reference items in the package."
 
     def _update(self, line_no, line):

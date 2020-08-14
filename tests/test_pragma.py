@@ -10,6 +10,7 @@ import test
 
 lbc = filters.LineBroadcaster
 
+
 class PragmaTestCase(test.TestCase):
 
     cut = Pragma
@@ -23,7 +24,11 @@ class PragmaTestCase(test.TestCase):
         endmodule
         """)
         with mock.patch.object(ImportWildcard, "error", autospec=True):
-            lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(*self.restrictions))
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(*self.restrictions))
             iut = self.get_listener(lb, ImportWildcard)
             iut.error.assert_not_called()
 
@@ -35,7 +40,11 @@ class PragmaTestCase(test.TestCase):
         endmodule
         """)
         with mock.patch.object(ImportWildcard, "error", autospec=True):
-            lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(*self.restrictions))
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(*self.restrictions))
             iut = self.get_listener(lb, ImportWildcard)
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, ImportWildcard.ERROR_MSG)
 
@@ -48,9 +57,13 @@ class PragmaTestCase(test.TestCase):
         endmodule
         """)
         with mock.patch.object(ImportWildcard, "error", autospec=True):
-           lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(*self.restrictions))
-           iut = self.get_listener(lb, ImportWildcard)
-           iut.error.assert_not_called()
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(*self.restrictions))
+            iut = self.get_listener(lb, ImportWildcard)
+            iut.error.assert_not_called()
 
     def test_pragma_reenabled(self):
         """Only the second issue should be caught here."""
@@ -63,9 +76,13 @@ class PragmaTestCase(test.TestCase):
         endmodule
         """)
         with mock.patch.object(ImportWildcard, "error", autospec=True):
-           lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(*self.restrictions))
-           iut = self.get_listener(lb, ImportWildcard)
-           iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, ImportWildcard.ERROR_MSG)
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(*self.restrictions))
+            iut = self.get_listener(lb, ImportWildcard)
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, ImportWildcard.ERROR_MSG)
 
     def test_pragma_unknown_class(self):
         """Here's an example of a bad pragma which should throw an error."""
@@ -73,9 +90,15 @@ class PragmaTestCase(test.TestCase):
         // mrtl: disable=ThisClassDoesntExist
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
-           lb = lbc("/rtl/blocka/blocka.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(*self.restrictions))
-           iut = self.get_listener(lb, self.cut)
-           iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, "could not find listener (ThisClassDoesntExist) class used in pragma")
-           
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(*self.restrictions))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY,
+                                         "could not find listener (ThisClassDoesntExist) class used in pragma")
+
+
 if __name__ == '__main__':
     unittest.main()
