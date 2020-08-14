@@ -7,6 +7,7 @@ import re
 # Meticulous RTL imports
 from mrtl import filters
 
+
 class Always(filters.LineListener):
     """
     SystemVerilog adds three new types of procedural always blocks that more clearly express intent. 
@@ -19,7 +20,7 @@ class Always(filters.LineListener):
     subscribe_to = [filters.ModuleLineBroadcaster]
 
     always_re = re.compile("\s*always(\\b|_latch)")
-    
+
     ERROR_MSG = "always or always_latch detected. Only always_comb or always_ff are permitted."
 
     def _update(self, line_no, line):

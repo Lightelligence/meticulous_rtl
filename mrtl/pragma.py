@@ -7,6 +7,7 @@ import re
 # Meticulous imports
 from mrtl import filters
 
+
 class Pragma(filters.LineListener):
     """
     """

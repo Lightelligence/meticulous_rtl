@@ -8,8 +8,10 @@ import re
 from lw import linebase as lb
 from lw import base as lw
 
+
 class LineBroadcaster(lb.LineBroadcaster):
     pass
+
 
 class LineListener(lb.LineListener):
     pass
@@ -34,14 +36,14 @@ class BeginModuleBroadcaster(lw.Broadcaster, lw.Listener):
 class EndModuleBroadcaster(lw.Broadcaster, lw.Listener):
     """Trigger on the closing line of the definition of a module."""
     subscribe_to = [LineBroadcaster]
-    
+
     end_module_re = re.compile("^\s*endmodule")
 
     def update_line(self, line_no, line):
         match = self.end_module_re.search(line)
         if match:
             self.broadcast(line_no, line, match)
-    
+
     def eof(self):
         self._broadcast("eof")
 
@@ -49,6 +51,7 @@ class EndModuleBroadcaster(lw.Broadcaster, lw.Listener):
 class ModuleLineBroadcaster(lw.Broadcaster, lw.Listener):
     """Triggers only on lines in between the first and closing line of a module."""
     subscribe_to = [BeginModuleBroadcaster, EndModuleBroadcaster, LineBroadcaster]
+
     def __init__(self, *args, **kwargs):
         super(ModuleLineBroadcaster, self).__init__(*args, **kwargs)
         self.active = False
