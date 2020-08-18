@@ -24,5 +24,4 @@ class ModuleDeclaration(filters.LineListener):
         if not self.module_re.search(line): # if regex returns None, raise error
             self.error(line_no, line, self.ERROR_MSG)
 
-
     update_moduleline = _update
