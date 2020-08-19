@@ -12,30 +12,31 @@ class ModuleDeclaration(filters.LineListener):
     """ 
     FIXME: module declaration
     """
-    subscribe_to = [filters.BeginModuleBroadcaster, filters.ModuleLineBroadcaster]
+    subscribe_to = [filters.BeginModuleBroadcaster, filters.ModuleLineBroadcaster, filters.LineBroadcaster]
 
-    module_re = re.compile("^\s{2}\((?!.)") #"^\s*module\s\w+\s*\\n\s{2}\((?!(\s*\w+))")
+    ERROR_MSG = "Module format invalid... (put 'module <module_name>' on its own line, then a newline with 2 spaces and open paren, then newline and signals)"
 
-    ERROR_MSG = "Module format invalid... (module <module_name> on one line, following line 2 spaces then open paren"
     def __init__(self, *args, **kwargs):
         super(ModuleDeclaration, self).__init__(*args, **kwargs)
         self.in_module = False
+        self.param = False
+        self.skip_one_line = False
 
     def update_moduleline(self, line_no, line):
-        if self.in_module:
-            # todo: check second line
-            self.in_module = False
-            if not re.search("^  \($"):
-                self.error()
-            # print("moduleline", line_no, line)
-        # if not self.module_re.search(line): # if regex returns None, raise error
-        #     self.error(line_no, line, self.ERROR_MSG)
+        if re.search("\s\s#\(\s*$", line):
+            self.param = True
+        elif self.param and re.search("^\s*\)", line):
+            self.param = False
+            self.skip_one_line = True
+
+        if not self.param:
+            if self.in_module and not self.skip_one_line:
+                self.in_module = False
+                if not re.search("^  \($", line):
+                    self.error(line_no, line, self.ERROR_MSG)
+            self.skip_one_line = False
 
     def update_beginmodule(self, line_no, line, match):
         self.in_module = True
-        if not re.search("module <.*>", line):
-            error()
-        # print("bm", line_no, line)
-        # todo: check first line
-
-    
+        if not re.search("module\s\w+$", line):
+            self.error(line_no, line, self.ERROR_MSG)
