@@ -10,13 +10,14 @@ from mrtl import filters
 
 class MultiDimArray(filters.LineListener):
     """ 
-    FIXME: ADD REASONING
+    Multi-dimmensional arrays are considered complex data types. They should be defined as typedefs in
+    YIS for the purpose of type-safety and documentation.
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
     multidim_re = re.compile("logic.*\w+((\[.*\:.*\]){2}|(\[.*\:.*\]){3})")
 
-    ERROR_MSG = "Multidimensional array of logic type detected. Use typedef instead."
+    ERROR_MSG = "Multidimensional array of logic type detected. Use YIS to create a typedef instead."
 
     def _update(self, line_no, line):
         if self.multidim_re.search(line):
