@@ -10,9 +10,13 @@ from mrtl import filters
 
 class ModuleDeclaration(filters.LineListener):
     """ 
-    FIXME: module declaration
+    Format module declaration using 'module <module_name>' on its own line, then a newline with 2 spaces and open paren, then newline and signals)
+
+i.e.
+module eu
+  (
     """
-    subscribe_to = [filters.BeginModuleBroadcaster, filters.ModuleLineBroadcaster, filters.LineBroadcaster]
+    subscribe_to = [filters.BeginModuleBroadcaster, filters.ModuleLineBroadcaster]
 
     ERROR_MSG = "Module format invalid... (put 'module <module_name>' on its own line, then a newline with 2 spaces and open paren, then newline and signals)"
 
