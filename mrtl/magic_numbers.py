@@ -1,5 +1,5 @@
 """
-Ban casex and casez, use case...inside only
+Ban magic numbers
 """
 # Python Imports
 import re
@@ -19,13 +19,29 @@ class MagicNumbers(filters.LineListener):
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
-    magic_re = re.compile("(\[\s*\d+\s*:\s*\d+\]|\[\w+\s*[-+*\/]\s*(?!1\:\s*0).*|<=\s*\d+|\w+\s*[<>]\s*\d+)")
+    magic_re = re.compile(
+        "(\[\s*\d+\s*:\s*\d+\]|\[\w+\s*[-+*\/]\s*(?!1\:\s*0).*|^\s*\w+\s*<=\s*\d+|for\s*\(.*;\s*\w+\s*(<|>|<=|>=)\s*\d+;\s*.*\))"
+    )
     #                       magic num in bracket|magic num using var but not -1:0|rst val|for loop
 
     ERROR_MSG = "Magic number detected. Use typdefs or localparams so the type name conveys intent."
 
+    def __init__(self, *args, **kwargs):
+        super(MagicNumbers, self).__init__(*args, **kwargs)
+        self.is_case = False
+
     def _update(self, line_no, line):
         if self.magic_re.search(line):
             self.error(line_no, line, self.ERROR_MSG)
+
+        if re.search("^\s*case\s+\(.*\)", line):
+            self.is_case = True
+
+        if re.search("^\s*endcase", line):
+            self.is_case = False
+
+        if self.is_case:
+            if re.search("^\s*\d?'[dhxbo][0-9A-Fxz]+\s*\:", line):
+                self.error(line_no, line, self.ERROR_MSG)
 
     update_moduleline = _update
