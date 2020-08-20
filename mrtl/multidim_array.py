@@ -15,7 +15,7 @@ class MultiDimArray(filters.LineListener):
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
-    multidim_re = re.compile("logic.*\w+((\[.*\:.*\]){2}|(\[.*\:.*\]){3})")
+    multidim_re = re.compile("(logic\s*\w+(\s*\[.*\:.*\]){2}|logic\s*(\s*\[.*\:.*\]){2}\s*\w+)")
 
     ERROR_MSG = "Multidimensional array of logic type detected. Use YIS to create a typedef instead."
 
