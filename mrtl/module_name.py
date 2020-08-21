@@ -25,4 +25,3 @@ class ModuleName(filters.LineListener):
     def update_beginmodule(self, line_no, line, match):
         if not re.search("(?<=(module)\s)\w+", line).group() == re.search("\w+(?=.sv)", self.file_name).group():
             self.error(line_no, line, self.ERROR_MSG)
-
