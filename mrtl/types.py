@@ -1,5 +1,5 @@
 """
-Ban casex and casez, use case...inside only
+Ban certain type keywords which can lead to non-portable or non-synthesizable code.
 """
 # Python Imports
 import re
