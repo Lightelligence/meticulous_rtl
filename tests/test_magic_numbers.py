@@ -96,7 +96,7 @@ class MagicNumbersTestCase(test.TestCase):
         """An illegal magic number (reset value)"""
         content = StringIO("""
         module foo;
-          always @(*)
+          always_ff @(posedge clk)
             begin
             if(reset == 1'b1)
               reg <= 0; //reset condition
@@ -116,7 +116,7 @@ class MagicNumbersTestCase(test.TestCase):
         """An OK number (reset value)"""
         content = StringIO("""
         module foo;
-          always @(*)
+          always_ff @(posedge clk)
             begin
             if(reset == 1'b1)
               reg <= foo; //reset condition
@@ -168,7 +168,7 @@ class MagicNumbersTestCase(test.TestCase):
         """An illegal magic number in a case block"""
         content = StringIO("""
         module foo;
-          always @(*)
+          always_ff @(posedge clk)
 			  begin
 				case ({r_VAL_1, r_VAL_2, r_VAL_3})
 				  3'b000  : r_RESULT <= 0;
@@ -192,7 +192,7 @@ class MagicNumbersTestCase(test.TestCase):
         """An OK number in a case block"""
         content = StringIO("""
         module foo;
-          always @(*)
+          always_ff @(posedge clk)
 			  begin
 				case ({r_VAL_1, r_VAL_2, r_VAL_3})
 				  case_item1  : r_RESULT <= 0;
@@ -216,7 +216,7 @@ class MagicNumbersTestCase(test.TestCase):
         """An OK number in a case block"""
         content = StringIO("""
         module foo;
-          always @(*)
+          always_ff @(posedge clk)
 			  begin
 				case ({r_VAL_1, r_VAL_2, r_VAL_3})
 				  case_item1  : r_RESULT <= 0;
