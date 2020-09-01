@@ -10,7 +10,7 @@ from mrtl import filters
 
 class UnpackedVector(filters.LineListener):
     """ 
-    FIXME: reason why no unpacked vectors
+    Unpacked vectors are less efficient in memory, waveform programs sometimes don't render them correctly, and you can't assign to the entire vector at once (such as in reset blocks). Avoid usage.
     """
     subscribe_to = [filters.LineBroadcaster]
 
