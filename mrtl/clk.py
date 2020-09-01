@@ -9,8 +9,8 @@ from mrtl import filters
 
 
 class Clk(filters.LineListener):
-    """ 
-    FIXEME: add motivation
+    """Changing clock names through hierarchy is dangerous because it is difficult
+    to catch RTL clock wiring bugs in simulation.
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
