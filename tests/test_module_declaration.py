@@ -74,6 +74,25 @@ module ch_flop
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
 
+    def test_module_lint_waiver(self):
+        """OK module declaration with a lint waiver."""
+        content = StringIO("""
+module iid // lint: disable=ATLGLC
+  (
+    input signal_name
+  );
+endmodule
+""")
+        with mock.patch.object(self.cut, "error", autospec=True):
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_not_called()
+
+
     def test_nonmodule(self):
         """An illegal module declaration format."""
         content = StringIO("""
