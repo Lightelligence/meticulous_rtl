@@ -14,7 +14,9 @@ class UnpackedVector(filters.LineListener):
     """
     subscribe_to = [filters.LineBroadcaster]
 
-    unpacked_re = re.compile("\s*\w+\s*\[\w+(-\w+|\s*)+\:\w+\]")
+    # only looking for logic wire reg and I/Os here
+    # other more unusual verilog-types for RTL (including bit, real, etc) are banned in another rule
+    unpacked_re = re.compile("^\s*(logic|input|output|inout|reg|wire).*\[.*\]\s*(,|;)?$")
 
     ERROR_MSG = "Unpacked vector detected. Only packed vectors are permitted."
 
