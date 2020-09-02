@@ -25,6 +25,7 @@ module eu
         self.in_module = False
         self.param = False
         self.skip_one_line = False
+        self.is_empty = False
 
     def update_moduleline(self, line_no, line):
         if re.search("\s\s#\(\s*$", line):
@@ -33,7 +34,7 @@ module eu
             self.param = False
             self.skip_one_line = True
 
-        if not self.param:
+        if not self.param and not self.is_empty:
             if self.in_module and not self.skip_one_line:
                 self.in_module = False
                 if not re.search("^  \($", line):
@@ -42,5 +43,9 @@ module eu
 
     def update_beginmodule(self, line_no, line, match):
         self.in_module = True
-        if not re.search("module\s\w+\s*(\/\/.*)*$", line):
+        if re.search("module\s\w+\s*(\(\s*\))*;\s*(\/\/.*)*$", line):
+            self.is_empty = True
+        elif not re.search("module\s\w+\s*(\/\/.*)*$", line):
             self.error(line_no, line, self.ERROR_MSG)
+        else:
+            self.is_empty = False
