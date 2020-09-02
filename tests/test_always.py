@@ -66,6 +66,22 @@ class AlwaysTestCase(test.TestCase):
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
 
+    def test_always_comment(self):
+        """An OK comment"""
+        content = StringIO("""
+        module foo;
+        // lanes and slices are assigned in the subsequent always blocks
+        endmodule
+        """)
+        with mock.patch.object(self.cut, "error", autospec=True):
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_not_called()
+
     def test_always_comb(self):
         """An OK always_comb block"""
         content = StringIO("""
