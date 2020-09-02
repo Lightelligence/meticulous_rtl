@@ -91,6 +91,7 @@ endmodule
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
+
     @unittest.skip("")
     def test_module_tb(self):
         """OK module declaration with no ports (for a TB)."""
@@ -107,7 +108,6 @@ endmodule
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
-
 
     def test_module_tb_no_parens(self):
         """A legal TB with no ports."""
