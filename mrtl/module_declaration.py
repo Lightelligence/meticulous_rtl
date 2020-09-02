@@ -42,5 +42,5 @@ module eu
 
     def update_beginmodule(self, line_no, line, match):
         self.in_module = True
-        if not re.search("module\s\w+$", line):
+        if not re.search("module\s\w+\s*(\/\/.*)*$", line):
             self.error(line_no, line, self.ERROR_MSG)
