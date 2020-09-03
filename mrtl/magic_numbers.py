@@ -29,6 +29,8 @@ class MagicNumbers(filters.LineListener):
     def __init__(self, *args, **kwargs):
         super(MagicNumbers, self).__init__(*args, **kwargs)
         self.is_case = False
+        # FIXME: enable after Azure #1811 is resolved
+        self.disable()
 
     def _update(self, line_no, line):
         if self.magic_re.search(line):
