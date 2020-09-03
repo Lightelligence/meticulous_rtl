@@ -10,6 +10,7 @@ import test
 lbc = filters.LineBroadcaster
 
 
+@unittest.skip("FIXME: Skipping due to Azure #1811")
 class MagicNumbersTestCase(test.TestCase):
 
     cut = MagicNumbers

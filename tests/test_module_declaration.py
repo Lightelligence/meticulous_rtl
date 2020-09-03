@@ -74,8 +74,43 @@ module ch_flop
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
 
-    def test_nonmodule(self):
-        """An illegal module declaration format."""
+    def test_module_lint_waiver(self):
+        """OK module declaration with a lint waiver."""
+        content = StringIO("""
+module iid // lint: disable=ATLGLC
+  (
+    input signal_name
+  );
+endmodule
+""")
+        with mock.patch.object(self.cut, "error", autospec=True):
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_not_called()
+
+    @unittest.skip("")
+    def test_module_tb(self):
+        """OK module declaration with no ports (for a TB)."""
+        content = StringIO("""
+module unit_test_top ();
+        logic foo;        
+endmodule
+        """)
+        with mock.patch.object(self.cut, "error", autospec=True):
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_not_called()
+
+    def test_module_tb_no_parens(self):
+        """A legal TB with no ports."""
         content = StringIO("""
         module foo;
           always_latch
@@ -91,7 +126,7 @@ module ch_flop
                      gc=None,
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
-            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, ModuleDeclaration.ERROR_MSG)
+            iut.error.assert_not_called()
 
     def test_nonmodule1(self):
         """An illegal module declaration format 1."""
