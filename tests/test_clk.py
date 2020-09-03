@@ -62,12 +62,12 @@ class ClkTestCase(test.TestCase):
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, Clk.ERROR_MSG)
 
-    def test_clk_bad1(self):
-        """An illegal clk usage"""
+    def test_clk_specificity(self):
+        """A legal name-change where clock goes from more-specific to less-specific"""
         content = StringIO("""
         module foo;
-          assign aclk = eclk;
-          assign eclk = aclk;
+          .sclk (ccu31_sclk)
+          .clk  (eclk)
         endmodule
         """)
         with mock.patch.object(self.cut, "error", autospec=True):
@@ -77,8 +77,7 @@ class ClkTestCase(test.TestCase):
                      gc=None,
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
-            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, Clk.ERROR_MSG)
-
+            iut.error.assert_not_called()
 
 if __name__ == '__main__':
     unittest.main()
