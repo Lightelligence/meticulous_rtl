@@ -28,7 +28,7 @@ class Clk(filters.LineListener):
         clk_search = self.clk_re.search(line)
         if clk_search:
             port_name = clk_search.group(1)
-            net_name  = clk_search.group(2)
+            net_name = clk_search.group(2)
             if not net_name.endswith(port_name):
                 self.error(line_no, line, self.ERROR_MSG)
 
