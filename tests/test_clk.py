@@ -79,5 +79,6 @@ class ClkTestCase(test.TestCase):
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
 
+
 if __name__ == '__main__':
     unittest.main()
