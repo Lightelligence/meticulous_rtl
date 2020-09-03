@@ -20,7 +20,7 @@ class Clk(filters.LineListener):
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
-    clk_re = re.compile("\.(\w+clk)\s*\(\s*(\w+)\s*\)")
+    clk_re = re.compile("^\s*\.(\w+clk)\s*\(\s*(\w+)\s*\)")
 
     ERROR_MSG = "clk issue detected. Do not change clock names on a hierarchical boundary."
 
