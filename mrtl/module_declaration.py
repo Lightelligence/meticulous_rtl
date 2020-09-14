@@ -12,7 +12,7 @@ class ModuleDeclaration(filters.LineListener):
     """ 
     Format module declaration using 'module <module_name>' on its own line, then a newline with 2 spaces and open paren, then newline and signals)
 
-i.e.
+e.g.
 module eu
   (
     """

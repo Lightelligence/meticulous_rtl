@@ -10,7 +10,7 @@ from mrtl import filters
 
 
 class MultipleModules(filters.LineListener):
-    """In general, each module should be in its own file.
+    """Each module should be in its own file.
 
     There are two main reasons to keep each module in its own file:
       1. Readability
