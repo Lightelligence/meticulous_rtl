@@ -100,10 +100,8 @@ class PragmaTestCase(test.TestCase):
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY,
                                          "could not find listener (ThisClassDoesntExist) class used in pragma")
 
-
-# 
     def test_pragma_multiple(self):
-        """Example wher a rule is enabled and disabled multiple times.""" 
+        """Example wher a rule is enabled and disabled multiple times."""
         content = StringIO("""
 // Copyright (c) 2020 Lightelligence
 //
