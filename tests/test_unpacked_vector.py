@@ -82,6 +82,31 @@ class UnpackedVectorTestCase(test.TestCase):
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
 
+    def test_parameter(self):
+        """Parameters behave slighlty differently."""
+        content = StringIO("""
+module ch_flop_arr
+  #(
+    parameter [31:0] STAGES = 2,
+    parameter type NET_TYPE_T = logic
+    )
+  (
+   input  eclk,
+   input  reset_n
+  )
+
+endmodule
+        """)
+        with mock.patch.object(self.cut, "error", autospec=True):
+            lb = lbc("/rtl/blocka/ch_flop_arr.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_not_called()
+        
+
 
 if __name__ == '__main__':
     unittest.main()
