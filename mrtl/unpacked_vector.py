@@ -22,6 +22,10 @@ class UnpackedVector(filters.LineListener):
 
     def _update(self, line_no, line):
         if self.unpacked_re.search(line):
-            self.error(line_no, line, self.ERROR_MSG)
+            # Hack to avoid comments, doesn't capture block comments
+            if not re.search("^\s*//", line):
+                # Parameters with specified widths seem to be caught by accident right now
+                if not re.search("^\s*parameter", line):
+                    self.error(line_no, line, self.ERROR_MSG)
 
     update_line = _update
