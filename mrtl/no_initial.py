@@ -35,4 +35,4 @@ class NoInitial(filters.LineListener):
 
     update_ifdef = _update_ifdef
     update_endif = _update_endif
-    update_line  = _update_line
+    update_line = _update_line
