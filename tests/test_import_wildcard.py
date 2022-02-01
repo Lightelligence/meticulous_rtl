@@ -45,6 +45,23 @@ class ImportWildcardTestCase(test.TestCase):
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY,
                                          "Do not use wildcard imports. Explicitly reference items in the package.")
 
+    def test_import_wildcard_scope(self):
+        """An illegal widlcard outside of module scope"""
+        content = StringIO("""
+        import foobar_pkg::*;
+        module foo;
+        endmodule
+        """)
+        with mock.patch.object(self.cut, "error", autospec=True):
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY,
+                                         "Do not use wildcard imports. Explicitly reference items in the package.")
+
 
 if __name__ == '__main__':
     unittest.main()
