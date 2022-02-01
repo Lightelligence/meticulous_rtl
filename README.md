@@ -34,4 +34,4 @@ In general, the syntax is:
 `// mrtl: (disable|enable)=[Comma separated list of rules]`
 
 # List of Rules
-The full list of rules and documentation [are listed here](https://dev.azure.com/LightelligencePlatform/meticulous_rtl/_git/meticulous_rtl?path=%2Frule_docs.md&version=GBcg%2Fdocs&_a=contents)
+The full list of rules and documentation [are listed here](https://dev.azure.com/LightelligencePlatform/meticulous_rtl/_git/meticulous_rtl?path=/rule_docs.md&version=GBcg/docs&_a=preview)

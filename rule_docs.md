@@ -86,9 +86,6 @@ Each module should be in its own file.
       2. Navigation
          If a module name matches its filename, its defintion can be found intuitively.
     
-## Pragma
-
-    
 ## Types
 Synthesizable SV RTL should only use a subset of all SV types available.
     Ban the following types: bit, real, integer (should use int instead), string, byte, shortint, longint, wand, wor, tri, triand, trior, tri0, tri1, supply0, supply1, trireg, shortreal, realtime, class
