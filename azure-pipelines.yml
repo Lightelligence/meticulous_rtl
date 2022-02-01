@@ -10,14 +10,14 @@ stages:
       displayName: 'Bazel Tests'
       steps:
       - script: |
-          conda activate digital
+          source activate digital
           yapf --diff --recursive . --style .style.yapf
         # Do an automatic regen with
         # yapf --in-place --recursive . --style .style.yapf
         displayName: 'yapf Check'
 
       - bash: |
-          conda activate digital
+          source activate digital
           find -L `bazel info bazel-testlogs` -name "test.xml" | xargs rm -f
           bazel test --cache_test_results=no --jobs 8 --test_output=all ...
         displayName: 'Run Tests'
