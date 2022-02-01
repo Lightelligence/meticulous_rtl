@@ -16,14 +16,14 @@ class EndifLabel(filters.LineListener):
     subscribe_to = [filters.IfdefBroadcaster, filters.EndifBroadcaster]
 
     endif_label_re = re.compile("^\s*`endif\s*\/\/\s*(\w+)")
-    
+
     ERROR_MSG = "an `ifdef <block_name> block must be closed with identification in an in-line comment: `endif // <block_name>"
 
     def _update_ifdef(self, line_no, line, label):
         self._ifdef_label = label
 
     def _update_endif(self, line_no, line):
-        match = self.endif_label_re.search(line)        
+        match = self.endif_label_re.search(line)
         if not match or match.group(1) != self._ifdef_label:
             self.error(line_no, line, self.ERROR_MSG)
 
