@@ -87,6 +87,7 @@ class IfdefTestCase(test.TestCase):
             iut = self.get_listener(lb, cut)
             iut.broadcast.assert_called_once()
             match = iut.broadcast.call_args[0][2]
-            
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -16,6 +16,7 @@ class LineBroadcaster(lb.LineBroadcaster):
 class LineListener(lb.LineListener):
     pass
 
+
 class IfdefBroadcaster(lw.Broadcaster, lw.Listener):
     """Trigger on the `ifdef <block_name> or `ifndef <block_name>."""
     subscribe_to = [LineBroadcaster]
@@ -31,6 +32,7 @@ class IfdefBroadcaster(lw.Broadcaster, lw.Listener):
     def eof(self):
         self._broadcast("eof")
 
+
 class EndifBroadcaster(lw.Broadcaster, lw.Listener):
     """Trigger on the `endif // <foo>."""
     subscribe_to = [LineBroadcaster]
@@ -44,6 +46,7 @@ class EndifBroadcaster(lw.Broadcaster, lw.Listener):
 
     def eof(self):
         self._broadcast("eof")
+
 
 class BeginModuleBroadcaster(lw.Broadcaster, lw.Listener):
     """Trigger on the opening line of the definition of a module."""
