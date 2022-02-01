@@ -3,16 +3,16 @@ from unittest import mock
 from io import StringIO
 
 from mrtl import filters
-from mrtl.import_wildcard import ImportWildcard
+from mrtl.no_import import NoImport
 
 import test
 
 lbc = filters.LineBroadcaster
 
 
-class ImportWildcardTestCase(test.TestCase):
+class ImportTestCase(test.TestCase):
 
-    cut = ImportWildcard
+    cut = NoImport
 
     def test_no_import(self):
         """No imports here."""
@@ -29,7 +29,7 @@ class ImportWildcardTestCase(test.TestCase):
             iut.error.assert_not_called()
 
     def test_import_wildcard(self):
-        """An illegal widlcard"""
+        """An illegal import wildcard"""
         content = StringIO("""
         module foo;
           import foobar_pkg::*;
@@ -42,8 +42,7 @@ class ImportWildcardTestCase(test.TestCase):
                      gc=None,
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
-            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY,
-                                         "Do not use wildcard imports. Explicitly reference items in the package.")
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, self.cut.ERROR_MSG)
 
     def test_import_wildcard_scope(self):
         """An illegal widlcard outside of module scope"""
@@ -59,9 +58,23 @@ class ImportWildcardTestCase(test.TestCase):
                      gc=None,
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
-            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY,
-                                         "Do not use wildcard imports. Explicitly reference items in the package.")
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, self.cut.ERROR_MSG)
 
+    def test_import_type_name(self):
+        """An illegal import with an explicit type name"""
+        content = StringIO("""
+        module foo;
+          import foobar_pkg::type_t;
+        endmodule
+        """)
+        with mock.patch.object(self.cut, "error", autospec=True):
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, self.cut.ERROR_MSG)
 
 if __name__ == '__main__':
     unittest.main()
