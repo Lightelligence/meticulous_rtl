@@ -17,7 +17,6 @@ MD_TEMPLATE = jinja2.Template("""# mrtl rule documentation
 for (_, name, _) in pkgutil.iter_modules(['mrtl']):
     this_mod = importlib.import_module('.' + name, 'mrtl')
 
-import pdb
 uniques = {}
 for cls in filters.LineListener.__subclasses__():
     # I'm not sure why there are duplciates. I think it has something to do with how bazel makes the python env work
