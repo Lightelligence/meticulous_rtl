@@ -24,8 +24,8 @@ class IfdefBroadcaster(lw.Broadcaster, lw.Listener):
 
     def update_line(self, line_no, line):
         match = self.ifdef_re.search(line)
-        ifdef_label = match[2]
         if match:
+            ifdef_label = match[2]
             self.broadcast(line_no, line, ifdef_label)
 
     def eof(self):
