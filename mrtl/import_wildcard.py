@@ -24,7 +24,7 @@ class ImportWildcard(filters.LineListener):
     coupled a module is to a package: you can easily count the number of
     references to the package.
     """
-    subscribe_to = [filters.ModuleLineBroadcaster]
+    subscribe_to = [filters.LineBroadcaster]
 
     wildcard_re = re.compile("^\s*import\s*.*::\*;")
 
@@ -34,4 +34,4 @@ class ImportWildcard(filters.LineListener):
         if self.wildcard_re.search(line):
             self.error(line_no, line, self.ERROR_MSG)
 
-    update_moduleline = _update
+    update_line = _update
