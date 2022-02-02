@@ -19,12 +19,12 @@ class Always(filters.LineListener):
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
-    always_re = re.compile("^\s*always(\\b|_latch)")
+    always_re = re.compile("\s*always(\\b|_latch)")
 
     ERROR_MSG = "always or always_latch detected. Only always_comb or always_ff are permitted."
 
     def _update(self, line_no, line):
-        if self.always_re.search(line):
+        if self.always_re.match(line):
             self.error(line_no, line, self.ERROR_MSG)
 
     update_moduleline = _update

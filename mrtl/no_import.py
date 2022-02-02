@@ -30,12 +30,12 @@ class NoImport(filters.LineListener):
     """
     subscribe_to = [filters.LineBroadcaster]
 
-    import_re = re.compile("^\s*import.*::")
+    import_re = re.compile("\s*import.*::")
 
     ERROR_MSG = "Do not use imports. Explicitly reference items in the package."
 
     def _update(self, line_no, line):
-        if self.import_re.search(line):
+        if self.import_re.match(line):
             self.error(line_no, line, self.ERROR_MSG)
 
     update_line = _update
