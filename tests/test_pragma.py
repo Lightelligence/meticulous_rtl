@@ -3,7 +3,7 @@ from unittest import mock
 from io import StringIO
 
 from mrtl import filters
-from mrtl.import_wildcard import ImportWildcard
+from mrtl.no_import import NoImport
 from mrtl.unpacked_vector import UnpackedVector
 from mrtl.pragma import Pragma
 
@@ -15,7 +15,7 @@ lbc = filters.LineBroadcaster
 class PragmaTestCase(test.TestCase):
 
     cut = Pragma
-    restrictions = [Pragma, ImportWildcard, UnpackedVector]
+    restrictions = [Pragma, NoImport, UnpackedVector]
 
     def test_no_wildcard(self):
         """No wildcard import here."""
@@ -24,13 +24,13 @@ class PragmaTestCase(test.TestCase):
           some other content
         endmodule
         """)
-        with mock.patch.object(ImportWildcard, "error", autospec=True):
+        with mock.patch.object(NoImport, "error", autospec=True):
             lb = lbc("/rtl/blocka/blocka.sv",
                      content,
                      parent=None,
                      gc=None,
                      restrictions=self.build_restriction_filter(*self.restrictions))
-            iut = self.get_listener(lb, ImportWildcard)
+            iut = self.get_listener(lb, NoImport)
             iut.error.assert_not_called()
 
     def test_wilcard_fails(self):
@@ -40,50 +40,50 @@ class PragmaTestCase(test.TestCase):
           import foobar::*;
         endmodule
         """)
-        with mock.patch.object(ImportWildcard, "error", autospec=True):
+        with mock.patch.object(NoImport, "error", autospec=True):
             lb = lbc("/rtl/blocka/blocka.sv",
                      content,
                      parent=None,
                      gc=None,
                      restrictions=self.build_restriction_filter(*self.restrictions))
-            iut = self.get_listener(lb, ImportWildcard)
-            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, ImportWildcard.ERROR_MSG)
+            iut = self.get_listener(lb, NoImport)
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, NoImport.ERROR_MSG)
 
     def test_pragma(self):
         """Wildcard import exists, but its been disabled by pragma"""
         content = StringIO("""
         module stuff;
-          // mrtl: disable=ImportWildcard
+          // mrtl: disable=NoImport
           import foobar::*;
         endmodule
         """)
-        with mock.patch.object(ImportWildcard, "error", autospec=True):
+        with mock.patch.object(NoImport, "error", autospec=True):
             lb = lbc("/rtl/blocka/blocka.sv",
                      content,
                      parent=None,
                      gc=None,
                      restrictions=self.build_restriction_filter(*self.restrictions))
-            iut = self.get_listener(lb, ImportWildcard)
+            iut = self.get_listener(lb, NoImport)
             iut.error.assert_not_called()
 
     def test_pragma_reenabled(self):
         """Only the second issue should be caught here."""
         content = StringIO("""
         module stuff;
-          // mrtl: disable=ImportWildcard
+          // mrtl: disable=NoImport
           import foobar::*;
-          // mrtl: enable=ImportWildcard
+          // mrtl: enable=NoImport
           import foobar::*;
         endmodule
         """)
-        with mock.patch.object(ImportWildcard, "error", autospec=True):
+        with mock.patch.object(NoImport, "error", autospec=True):
             lb = lbc("/rtl/blocka/blocka.sv",
                      content,
                      parent=None,
                      gc=None,
                      restrictions=self.build_restriction_filter(*self.restrictions))
-            iut = self.get_listener(lb, ImportWildcard)
-            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, ImportWildcard.ERROR_MSG)
+            iut = self.get_listener(lb, NoImport)
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, NoImport.ERROR_MSG)
 
     def test_pragma_unknown_class(self):
         """Here's an example of a bad pragma which should throw an error."""

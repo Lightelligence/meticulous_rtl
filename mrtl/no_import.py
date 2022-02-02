@@ -8,12 +8,12 @@ import re
 from mrtl import filters
 
 
-class ImportWildcard(filters.LineListener):
-    """Ban import packages by wildcard.
+class NoImport(filters.LineListener):
+    """Ban import packages.
 
-    This is anything of the format 'import <pkg>::*'.
+    This is anything of the format 'import <pkg>::<type_or_wildcard>'.
 
-    While doing an import by wildcard may reduce the amount of typing you need
+    While doing an import may reduce the amount of typing you need
     to do in your module and you could argue it improves readability, it makes
     tracing much more difficult.
 
@@ -23,15 +23,19 @@ class ImportWildcard(filters.LineListener):
     where the definition lives. It also makes it more obvious how tightly
     coupled a module is to a package: you can easily count the number of
     references to the package.
+
+    Types and params should be explicitly scoped:
+    <pkg>::<type> <net_name>;
+    logic [<pkg>::<param>-1:0] <net_name>;
     """
-    subscribe_to = [filters.ModuleLineBroadcaster]
+    subscribe_to = [filters.LineBroadcaster]
 
-    wildcard_re = re.compile("^\s*import\s*.*::\*;")
+    import_re = re.compile("\s*import.*::")
 
-    ERROR_MSG = "Do not use wildcard imports. Explicitly reference items in the package."
+    ERROR_MSG = "Do not use imports. Explicitly reference items in the package."
 
     def _update(self, line_no, line):
-        if self.wildcard_re.search(line):
+        if self.import_re.match(line):
             self.error(line_no, line, self.ERROR_MSG)
 
-    update_moduleline = _update
+    update_line = _update

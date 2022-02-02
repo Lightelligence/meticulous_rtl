@@ -30,14 +30,14 @@ module eu
     def update_moduleline(self, line_no, line):
         if re.search("\s\s#\(\s*$", line):
             self.param = True
-        elif self.param and re.search("^\s*\)", line):
+        elif self.param and re.match("\s*\)", line):
             self.param = False
             self.skip_one_line = True
 
         if not self.param and not self.is_empty:
             if self.in_module and not self.skip_one_line:
                 self.in_module = False
-                if not re.search("^  \($", line):
+                if not re.match("  \($", line):
                     self.error(line_no, line, self.ERROR_MSG)
             self.skip_one_line = False
 

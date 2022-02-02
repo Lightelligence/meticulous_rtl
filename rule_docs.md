@@ -34,21 +34,10 @@ Changing clock names through hierarchy is dangerous because it is difficult
     however, it is illegal to completely change clock names on the boundary like:
     .eclk(sclk)
     
-## ImportWildcard
-Ban import packages by wildcard.
-
-    This is anything of the format 'import <pkg>::*'.
-
-    While doing an import by wildcard may reduce the amount of typing you need
-    to do in your module and you could argue it improves readability, it makes
-    tracing much more difficult.
-
-    Params and types no longer indicate their parent package which is where you would find their definition.
-
-    By explicitly refering to content withing a package, you know implcilitly
-    where the definition lives. It also makes it more obvious how tightly
-    coupled a module is to a package: you can easily count the number of
-    references to the package.
+## EndifLabel
+ 
+    An `endif label must be provied for any `ifdef block. This improves code readability and makes it easier for MRTL to disable or enable other checks based on 
+    whether it is inside of an `ifdef block.
     
 ## MagicNumbers
  
@@ -85,6 +74,31 @@ Each module should be in its own file.
          Files remain a reasonable size.
       2. Navigation
          If a module name matches its filename, its defintion can be found intuitively.
+    
+## NoImport
+Ban import packages.
+
+    This is anything of the format 'import <pkg>::<type_or_wildcard>'.
+
+    While doing an import may reduce the amount of typing you need
+    to do in your module and you could argue it improves readability, it makes
+    tracing much more difficult.
+
+    Params and types no longer indicate their parent package which is where you would find their definition.
+
+    By explicitly refering to content withing a package, you know implcilitly
+    where the definition lives. It also makes it more obvious how tightly
+    coupled a module is to a package: you can easily count the number of
+    references to the package.
+
+    Types and params should be explicitly scoped:
+    <pkg>::<type> <net_name>;
+    logic [<pkg>::<param>-1:0] <net_name>;
+    
+## NoInitial
+
+    The initial keyword should not be used in RTL as it is not recognized by the synthesis tool. This can cause synth vs. sim behavioral mismatches that cannot be
+    detected until gate-sim.
     
 ## Types
 Synthesizable SV RTL should only use a subset of all SV types available.

@@ -20,15 +20,15 @@ class Clk(filters.LineListener):
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
-    clk_re = re.compile("^\s*\.(\w+clk)\s*\(\s*(\w+)\s*\)")
+    clk_re = re.compile("\s*\.(\w+clk)\s*\(\s*(\w+)\s*\)")
 
     ERROR_MSG = "clk issue detected. Do not change clock names on a hierarchical boundary."
 
     def _update(self, line_no, line):
-        clk_search = self.clk_re.search(line)
-        if clk_search:
-            port_name = clk_search.group(1)
-            net_name = clk_search.group(2)
+        match = self.clk_re.match(line)
+        if match:
+            port_name = match.group(1)
+            net_name = match.group(2)
             if not net_name.endswith(port_name):
                 self.error(line_no, line, self.ERROR_MSG)
 
