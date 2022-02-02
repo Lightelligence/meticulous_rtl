@@ -21,12 +21,12 @@ class CaseXZ(filters.LineListener):
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
-    casexz_re = re.compile("^\s*case[xz]")
+    casexz_re = re.compile("\s*case[xz]")
 
     ERROR_MSG = "casex or casez detected. Use case...inside"
 
     def _update(self, line_no, line):
-        if self.casexz_re.search(line):
+        if self.casexz_re.match(line):
             self.error(line_no, line, self.ERROR_MSG)
 
     update_moduleline = _update

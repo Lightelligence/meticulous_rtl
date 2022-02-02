@@ -36,14 +36,14 @@ class MagicNumbers(filters.LineListener):
         if self.magic_re.search(line):
             self.error(line_no, line, self.ERROR_MSG)
 
-        if re.search("^\s*case\s+\(.*\)", line):
+        if re.match("\s*case\s+\(.*\)", line):
             self.is_case = True
 
-        if re.search("^\s*endcase", line):
+        if re.match("\s*endcase", line):
             self.is_case = False
 
         if self.is_case:
-            if re.search("^\s*\d?'[dhxbo][0-9A-Fxz]+\s*\:", line):
+            if re.match("\s*\d?'[dhxbo][0-9A-Fxz]+\s*\:", line):
                 self.error(line_no, line, self.ERROR_MSG)
 
     update_moduleline = _update
