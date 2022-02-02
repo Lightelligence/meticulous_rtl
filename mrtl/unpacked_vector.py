@@ -16,16 +16,16 @@ class UnpackedVector(filters.LineListener):
 
     # only looking for logic wire reg and I/Os here
     # other more unusual verilog-types for RTL (including bit, real, etc) are banned in another rule
-    unpacked_re = re.compile("^\s*(logic|input|output|inout|reg|wire).*\[.*\]\s*(,|;)?$")
+    unpacked_re = re.compile("\s*(logic|input|output|inout|reg|wire).*\[.*\]\s*(,|;)?$")
 
     ERROR_MSG = "Unpacked vector detected. Only packed vectors are permitted."
 
     def _update(self, line_no, line):
-        if self.unpacked_re.search(line):
+        if self.unpacked_re.match(line):
             # Hack to avoid comments, doesn't capture block comments
-            if not re.search("^\s*//", line):
+            if not re.match("\s*//", line):
                 # Parameters with specified widths seem to be caught by accident right now
-                if not re.search("^\s*parameter", line):
+                if not re.match("\s*parameter", line):
                     self.error(line_no, line, self.ERROR_MSG)
 
     update_line = _update

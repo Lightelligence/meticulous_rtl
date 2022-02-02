@@ -16,13 +16,12 @@ class AsyncReset(filters.LineListener):
     """
     subscribe_to = [filters.ModuleLineBroadcaster]
 
-    async_re = re.compile("^\s*always.*\(.*edge\s+[a-zA-Z0-9_]*re*se*t")
-    # async_re = re.compile("^\s*always.*\(.*edge")
+    async_re = re.compile("\s*always.*\(.*edge\s+[a-zA-Z0-9_]*re*se*t")
 
     ERROR_MSG = "async reset detected. sync reset preferred if possible."
 
     def _update(self, line_no, line):
-        if self.async_re.search(line):
+        if self.async_re.match(line):
             self.error(line_no, line, self.ERROR_MSG)
 
     update_moduleline = _update

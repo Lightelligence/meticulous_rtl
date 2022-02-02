@@ -17,7 +17,7 @@ class NoInitial(filters.LineListener):
 
     _in_ifdef = False
 
-    initial_re = re.compile("^\s*initial\s+")
+    initial_re = re.compile("\s*initial\s+")
 
     ERROR_MSG = "Do not use the intial keyword unless it is inside of an `ifdef TBV block"
 
@@ -29,7 +29,7 @@ class NoInitial(filters.LineListener):
         self._in_ifdef = False
 
     def _update_line(self, line_no, line):
-        match = self.initial_re.search(line)
+        match = self.initial_re.match(line)
         if match and not self._in_ifdef:
             self.error(line_no, line, self.ERROR_MSG)
 
