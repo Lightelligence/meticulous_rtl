@@ -41,7 +41,7 @@ module eu
                     self.error(line_no, line, self.ERROR_MSG)
             self.skip_one_line = False
 
-    def update_beginmodule(self, line_no, line, match):
+    def update_beginmodule(self, line_no, line):
         self.in_module = True
         if re.search("module\s\w+\s*(\(\s*\))*;\s*(\/\/.*)*$", line):
             self.is_empty = True
