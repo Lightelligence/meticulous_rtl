@@ -10,7 +10,7 @@ import test
 lbc = filters.LineBroadcaster
 
 
-class NoInitialTestCase(test.TestCase):
+class SameLineBeginTestCase(test.TestCase):
 
     cut = SameLineBegin
 
@@ -462,7 +462,6 @@ class NoInitialTestCase(test.TestCase):
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
-
 
     def test_always_ff_begin_comment(self):
         """always_ff with begin."""
