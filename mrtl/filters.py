@@ -35,6 +35,7 @@ class BaseLineMatchBroadcaster(lw.Broadcaster, lw.Listener):
     def eof(self):
         self._broadcast("eof")
 
+
 class IfdefBroadcaster(BaseLineMatchBroadcaster):
     """Trigger on the `ifdef <block_name> or `ifndef <block_name>."""
 
@@ -67,15 +68,16 @@ class EndModuleBroadcaster(BaseLineMatchBroadcaster):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*endmodule")
 
+
 class ModuleLineBroadcaster(lw.Broadcaster, lw.Listener):
     """Triggers only on lines in between the first and closing line of a module."""
     subscribe_to = [BeginModuleBroadcaster, EndModuleBroadcaster, LineBroadcaster]
     beginmodule_line = -1
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.active = False
-        
+
     def update_beginmodule(self, line_no, line):
         self.active = True
         self.beginmodule_line = line_no
@@ -89,6 +91,7 @@ class ModuleLineBroadcaster(lw.Broadcaster, lw.Listener):
 
     def eof(self):
         self._broadcast("eof")
+
 
 class BaseModuleLineMatchBroadcaster(lw.Broadcaster, lw.Listener):
     subscribe_to = [ModuleLineBroadcaster]
@@ -108,12 +111,14 @@ class BaseModuleLineMatchBroadcaster(lw.Broadcaster, lw.Listener):
     def eof(self):
         self._broadcast("eof")
 
+
 class BeginCaseBroadcaster(BaseModuleLineMatchBroadcaster):
     """Trigger on the opening line of a case statement."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*((priority|unique)\s+)*case\s*\(.+\)")
+
 
 class EndCaseBroadcaster(BaseModuleLineMatchBroadcaster):
     """Trigger on the closing line of a case statement."""
@@ -122,12 +127,14 @@ class EndCaseBroadcaster(BaseModuleLineMatchBroadcaster):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*endcase")
 
+
 class AutoRegInputBroadcaster(BaseModuleLineMatchBroadcaster):
     """Trigger on the start of an AUTOREGINPUT block."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*/\*\s*AUTOREGINPUT\s*\*/")
+
 
 class AutoWireBroadcaster(BaseModuleLineMatchBroadcaster):
     """Trigger on the start of an AUTOWIRE block."""
@@ -136,6 +143,7 @@ class AutoWireBroadcaster(BaseModuleLineMatchBroadcaster):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*/\*\s*AUTOWIRE\s*\*/")
 
+
 class EndAutosBroadcaster(BaseModuleLineMatchBroadcaster):
     """Trigger on the end of an AUTOs block."""
 
@@ -143,9 +151,10 @@ class EndAutosBroadcaster(BaseModuleLineMatchBroadcaster):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*\/\/ End of automatics")
 
+
 class CaseLineBroadcaster(lw.Broadcaster, lw.Listener):
     """Triggers only on lines in between the first and closing line of a case statement."""
-    subscribe_to = [BeginCaseBroadcaster, EndCaseBroadcaster, ModuleLineBroadcaster]    
+    subscribe_to = [BeginCaseBroadcaster, EndCaseBroadcaster, ModuleLineBroadcaster]
     begincase_line = -1
 
     def __init__(self, *args, **kwargs):

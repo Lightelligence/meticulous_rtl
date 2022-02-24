@@ -16,7 +16,10 @@ class NoRegWire(filters.LineListener):
 
     This rule does not apply to AUTOREGINPUT and AUTOWIRE blocks which will automatically use wire and reg types.
     """
-    subscribe_to = [filters.ModuleLineBroadcaster, filters.AutoRegInputBroadcaster, filters.AutoWireBroadcaster, filters.EndAutosBroadcaster]
+    subscribe_to = [
+        filters.ModuleLineBroadcaster, filters.AutoRegInputBroadcaster, filters.AutoWireBroadcaster,
+        filters.EndAutosBroadcaster
+    ]
 
     reg_wire_re = re.compile("\s*(reg|wire)\s+\w+;")
     in_autos = False
@@ -29,7 +32,7 @@ class NoRegWire(filters.LineListener):
 
     def update_autoreginput(self, line_no, line):
         self.in_autos = True
-    
+
     def update_autowire(self, line_no, line):
         self.in_autos = True
 

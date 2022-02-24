@@ -84,5 +84,6 @@ class NoRegWireTestCase(test.TestCase):
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, self.cut.ERROR_MSG)
 
+
 if __name__ == '__main__':
     unittest.main()
