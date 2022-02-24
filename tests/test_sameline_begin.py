@@ -48,7 +48,7 @@ class SameLineBeginTestCase(test.TestCase):
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, self.cut.ERROR_MSG)
-            
+
     def test_always_comb_begin(self):
         """always_comb with begin."""
         content = StringIO("""
@@ -513,6 +513,7 @@ class SameLineBeginTestCase(test.TestCase):
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, self.cut.ERROR_MSG)
-            
+
+
 if __name__ == '__main__':
     unittest.main()

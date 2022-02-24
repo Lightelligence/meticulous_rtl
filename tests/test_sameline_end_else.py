@@ -137,7 +137,7 @@ class SameLineEndElseTestCase(test.TestCase):
                      restrictions=self.build_restriction_filter(self.cut))
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, self.cut.ERROR_MSG)
-            
+
     def test_newline_end_else(self):
         """newline else without end."""
         content = StringIO("""
