@@ -72,7 +72,9 @@ class SameLineBegin(filters.LineListener):
     """
     subscribe_to = [filters.ModuleLineBroadcaster, filters.CaseLineBroadcaster]
 
-    missing_begin_re = re.compile("\s*(always_ff\s*@\(\w+\s+\w+\)\s*|always_comb\s+|initial\s+|((generate\s+)?(for|if)|else\s+if)\s*\(.+\)\s*|else\s*)(\/\/.*)*$")
+    missing_begin_re = re.compile(
+        "\s*(always_ff\s*@\(\w+\s+\w+\)\s*|always_comb\s+|initial\s+|((generate\s+)?(for|if)|else\s+if)\s*\(.+\)\s*|else\s*)(\/\/.*)*$"
+    )
     case_begin_re = re.compile("\s*((\w+::\w+)|\w+):\s*(\/\/.*)*$")
 
     ERROR_MSG = "always blocks, initial blocks, case and if statements must have the begin keyword on the same line"

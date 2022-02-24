@@ -16,11 +16,12 @@ class LineBroadcaster(lb.LineBroadcaster):
 class LineListener(lb.LineListener):
     pass
 
+
 class BaseLineMatchBroadcaster(lw.Broadcaster, lw.Listener):
     subscribe_to = [LineBroadcaster]
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)        
+        super().__init__(*args, **kwargs)
         self.group = None
 
     def update_line(self, line_no, line):
@@ -33,7 +34,8 @@ class BaseLineMatchBroadcaster(lw.Broadcaster, lw.Listener):
 
     def eof(self):
         self._broadcast("eof")
-    
+
+
 class IfdefBroadcaster(BaseLineMatchBroadcaster):
     """Trigger on the `ifdef <block_name> or `ifndef <block_name>."""
 
@@ -42,12 +44,14 @@ class IfdefBroadcaster(BaseLineMatchBroadcaster):
         self.regex = re.compile("\s*`if(n)*def\s+(\w+)")
         self.group = 2
 
+
 class EndifBroadcaster(BaseLineMatchBroadcaster):
     """Trigger on the `endif // <foo>."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*`endif")
+
 
 class BeginModuleBroadcaster(BaseLineMatchBroadcaster):
     """Trigger on the opening line of the definition of a module."""
@@ -56,12 +60,14 @@ class BeginModuleBroadcaster(BaseLineMatchBroadcaster):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*module")
 
+
 class EndModuleBroadcaster(BaseLineMatchBroadcaster):
     """Trigger on the closing line of the definition of a module."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*endmodule")
+
 
 class BeginCaseBroadcaster(BaseLineMatchBroadcaster):
     """Trigger on the opening line of a case statement."""
@@ -70,12 +76,14 @@ class BeginCaseBroadcaster(BaseLineMatchBroadcaster):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*((priority|unique)\s+)*case\s*\(.+\)")
 
+
 class EndCaseBroadcaster(BaseLineMatchBroadcaster):
     """Trigger on the closing line of a case statement."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.regex = re.compile("\s*endcase")
+
 
 class ModuleLineBroadcaster(lw.Broadcaster, lw.Listener):
     """Triggers only on lines in between the first and closing line of a module."""
@@ -99,6 +107,7 @@ class ModuleLineBroadcaster(lw.Broadcaster, lw.Listener):
 
     def eof(self):
         self._broadcast("eof")
+
 
 class CaseLineBroadcaster(lw.Broadcaster, lw.Listener):
     """Triggers only on lines in between the first and closing line of a case statement."""
