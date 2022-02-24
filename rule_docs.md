@@ -117,6 +117,14 @@ Ban import packages.
     The initial keyword should not be used in RTL as it is not recognized by the synthesis tool. This can cause synth vs. sim behavioral mismatches that cannot be
     detected until gate-sim.
     
+## NoRegWire
+
+    Keywords reg and wire are banned in favor of using custom-types or the logic keyword. use of reg and wire
+    is less-portable than use of logic because it requires the designer to consider whether they need a net or a variable.
+    Modern EDA tools can correctly infer net vs. variable when they encounter the logic type. 
+
+    This rule does not apply to AUTOREGINPUT and AUTOWIRE blocks which will automatically use wire and reg types.
+    
 ## SameLineBegin
  
     For any block that requires a begin/end, the begin must be on the same line as the block type. This is done to reduce unnecessary
