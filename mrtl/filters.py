@@ -66,7 +66,8 @@ class EndModuleBroadcaster(BaseLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.regex = re.compile("\s*endmodule")
+        self.regex = re.compile("\s*endmodule\s*(:\s*\w+)?")
+        self.group = 1
 
 
 class ModuleLineBroadcaster(lw.Broadcaster, lw.Listener):
@@ -82,7 +83,7 @@ class ModuleLineBroadcaster(lw.Broadcaster, lw.Listener):
         self.active = True
         self.beginmodule_line = line_no
 
-    def update_endmodule(self, line_no, line):
+    def update_endmodule(self, line_no, line, match):
         self.active = False
 
     def update_line(self, line_no, line):

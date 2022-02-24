@@ -56,6 +56,12 @@ Declaring a net of type logic or reg and assigning to it in the same line causes
     An `endif label must be provied for any `ifdef block. This improves code readability and makes it easier for MRTL to disable or enable other checks based on 
     whether it is inside of an `ifdef block.
     
+## EndmoduleLabel
+
+    endmodule labels are banned. Having one makes a future change to the module name more difficult. They may be helpful in cases
+    where multiple-modules are defined in the same file, but doing so would go against our methodology. only 1 module may be defined
+    per-file.
+    
 ## MagicNumbers
  
     In our systemverilog methodology, try to put as many types and parameters either into systemverilog typedefs (or typedef unions or typdef structs) or into localparams. Use typdefs as much as possible since the type name conveys intent (e.g. edl_cmd_t), but in some cases localparams or parameters (e.g. logic [chip_rypkg::NUM_DPM_ENG - 1:0])to define a logic width is okay.

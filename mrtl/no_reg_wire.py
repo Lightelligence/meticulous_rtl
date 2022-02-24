@@ -1,5 +1,5 @@
 """
-Ensures the else of an if statement has the preceeding end on the same line
+Bans the use of reg and wire types in favor of the logic type
 """
 # Python Imports
 import re
