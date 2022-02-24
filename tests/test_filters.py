@@ -21,8 +21,7 @@ class ModuleTestCase(test.TestCase):
         with mock.patch.object(cut, "broadcast", autospec=True):
             lb = lbc("/tests/foobar.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(cut))
             iut = self.get_listener(lb, cut)
-            iut.broadcast.assert_called_once()
-            match = iut.broadcast.call_args[0][3]
+            iut.broadcast.assert_called_once()            
 
     def test_endmodule(self):
         content = StringIO("""
