@@ -24,7 +24,7 @@ class MultipleModules(filters.LineListener):
         super(MultipleModules, self).__init__(filename, fstream, *args, **kwargs)
         self.found_a_module_on_line = -1
 
-    def update_beginmodule(self, line_no, line, match):
+    def update_beginmodule(self, line_no, line):
         if self.found_a_module_on_line >= 0:
             self.error(line_no, line, f"One module per file please: first module on {self.found_a_module_on_line}")
         else:
