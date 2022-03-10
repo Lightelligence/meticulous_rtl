@@ -37,6 +37,8 @@ Changing clock names through hierarchy is dangerous because it is difficult
 ## DeclareAndAssign
 Declaring a net of type logic or reg and assigning to it in the same line causes the tool to infer an initial block 
     which is not a synthesizable construct. Only the wire type can be safely used for an single-line declaration and assignment.
+    Since part of the methodology is to not use wires (in favor of always using logic, or custom-types), all single-line declare
+    and assignments are banned.
 
     DO NOT DO THIS:
     logic foo = 1'b1;
