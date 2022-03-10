@@ -28,6 +28,36 @@ class DeclareAndAssignTestCase(test.TestCase):
             iut = self.get_listener(lb, self.cut)
             iut.error.assert_not_called()
 
+    def test_assign(self):
+        """simple assignment."""
+        content = StringIO("""
+        assign foo = 1'b1;
+        """)
+        with mock.patch.object(self.cut, "error", autospec=True):
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_not_called()
+
+    def test_declare_and_assign_custom_type(self):
+        """simple assignment."""
+        content = StringIO("""
+        module foo;
+        type_rypkg::type_t bar = 1'b1;
+        endmodule
+        """)
+        with mock.patch.object(self.cut, "error", autospec=True):
+            lb = lbc("/rtl/blocka/blocka.sv",
+                     content,
+                     parent=None,
+                     gc=None,
+                     restrictions=self.build_restriction_filter(self.cut))
+            iut = self.get_listener(lb, self.cut)
+            iut.error.assert_called_with(mock.ANY, mock.ANY, mock.ANY, self.cut.ERROR_MSG)
+
     def test_only_declare_reg(self):
         """simple declaration of a reg-type."""
         content = StringIO("""
