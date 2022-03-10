@@ -22,7 +22,6 @@ class ModuleTestCase(test.TestCase):
             lb = lbc("/tests/foobar.sv", content, parent=None, gc=None, restrictions=self.build_restriction_filter(cut))
             iut = self.get_listener(lb, cut)
             iut.broadcast.assert_called_once()
-            match = iut.broadcast.call_args[0][3]
 
     def test_endmodule(self):
         content = StringIO("""

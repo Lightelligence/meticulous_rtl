@@ -34,10 +34,35 @@ Changing clock names through hierarchy is dangerous because it is difficult
     however, it is illegal to completely change clock names on the boundary like:
     .eclk(sclk)
     
+## DeclareAndAssign
+Declaring a net of type logic or reg and assigning to it in the same line causes the tool to infer an initial block 
+    which is not a synthesizable construct. Only the wire type can be safely used for an single-line declaration and assignment.
+    Since part of the methodology is to not use wires (in favor of always using logic, or custom-types), all single-line declare
+    and assignments are banned.
+
+    DO NOT DO THIS:
+    logic foo = 1'b1;
+
+    because it translates to:
+    logic foo;
+    initial begin
+      foo = 1'b1;
+    end
+
+    DO THIS INSTEAD:
+    logic foo;
+    assign foo = 1'b1;
+    
 ## EndifLabel
  
     An `endif label must be provied for any `ifdef block. This improves code readability and makes it easier for MRTL to disable or enable other checks based on 
     whether it is inside of an `ifdef block.
+    
+## EndmoduleLabel
+
+    endmodule labels are banned. Having one makes a future change to the module name more difficult. They may be helpful in cases
+    where multiple-modules are defined in the same file, but doing so would go against our methodology. only 1 module may be defined
+    per-file.
     
 ## MagicNumbers
  
@@ -99,6 +124,107 @@ Ban import packages.
 
     The initial keyword should not be used in RTL as it is not recognized by the synthesis tool. This can cause synth vs. sim behavioral mismatches that cannot be
     detected until gate-sim.
+    
+## NoRegWire
+
+    Keywords reg and wire are banned in favor of using custom-types or the logic keyword. use of reg and wire
+    is less-portable than use of logic because it requires the designer to consider whether they need a net or a variable.
+    Modern EDA tools can correctly infer net vs. variable when they encounter the logic type. 
+
+    This rule does not apply to AUTOREGINPUT and AUTOWIRE blocks which will automatically use wire and reg types.
+    
+## SameLineBegin
+ 
+    For any block that requires a begin/end, the begin must be on the same line as the block type. This is done to reduce unnecessary
+    usaged of newlines and to enforce a consistent coding-style. This style is enforced for: always_* blocks, for loops, initial blocks,
+    and conditions of case or if statements that are multi-line.
+
+    DO NOT DO THIS:
+    always_ff @(posedge clk)
+      begin
+        q <= d;
+      end
+    end
+
+    DO THIS INSTEAD:
+    always_ff @(posedge clk) begin
+      q <= d;
+    end
+
+    CASE AND IF STATEMENTS:
+    a single line condition with assignment does not require a begin/end at all, but a multi-line condition does.
+
+    THIS IS OKAY BECAUSE IT USES SIGNLE-LINE CONDITIONS:
+    always_comb begin
+    case (foo)
+      pkg_name::ENUM_TYPE0: out = in0;
+      pkg_name::ENUM_TYPE1: out = in1;
+      default: out = 'x;
+    endcase
+
+    THIS IS OKAY BECAUSE IT USES MULTI-LINE CONDITIONS WITH BEGIN ON THE FIRST LINE:
+    always_comb begin
+      case (foo)
+        pkg_name::ENUM_TYPE0: begin
+          out = in0;
+        end
+        pkg_name::ENUM_TYPE1: begin
+          out = in1;
+        end
+        default: begin
+          out = 'x;
+        end
+      endcase
+    end
+
+    THIS IS INVALID:
+    always_comb begin
+      case (foo)
+        pkg_name::ENUM_TYPE0: 
+          begin
+            out = in0;
+          end
+        pkg_name::ENUM_TYPE1: 
+          begin
+            out = in1;
+          end
+        default: 
+          begin
+            out = 'x;
+          end
+      endcase
+    end
+    
+## SameLineEndElse
+
+    For any if/else statement, the else clause must be on the same line as the end from the precceding if. This is done to reduce 
+    unnecessary usage of newlines and to enforce a consistent-coding style. This coding style also helps keep indentation sane for our
+    text-editors. This is not enforced for single-line if/else statements.
+
+    DO NOT DO THIS:
+    always_ff @(posedge clk)
+      if(~reset_n) begin
+        q <= 1'b0;
+      end
+      else begin
+        q <= d;
+      end
+    end
+
+    DO THIS INSTEAD:
+    always_ff @(posedge clk)
+      if(~reset_n) begin
+        q <= 1'b0;
+      end else begin
+        q <= d;
+      end
+    end
+
+    Since the above examples use a single-line if/else statement, this would be another acceptable way to write that code:
+    always_ff @(posedge clk)
+      if(~reset_n) q <= 1'b0;
+      else q <= d;
+    end
     
 ## Types
 Synthesizable SV RTL should only use a subset of all SV types available.
