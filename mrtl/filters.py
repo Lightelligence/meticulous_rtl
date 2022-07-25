@@ -22,6 +22,7 @@ class BaseLineMatchBroadcaster(lw.Broadcaster, lw.Listener):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.disable() # disable the base-class. all children need to enable in their constructor
         self.group = None
 
     def update_line(self, line_no, line):
@@ -41,6 +42,7 @@ class IfdefBroadcaster(BaseLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.enable()
         self.regex = re.compile("\s*`if(n)*def\s+(\w+)")
         self.group = 2
 
@@ -50,6 +52,7 @@ class EndifBroadcaster(BaseLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.enable()
         self.regex = re.compile("\s*`endif")
 
 
@@ -58,6 +61,7 @@ class BeginModuleBroadcaster(BaseLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.enable()
         self.regex = re.compile("\s*module")
 
 
@@ -66,6 +70,7 @@ class EndModuleBroadcaster(BaseLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.enable()
         self.regex = re.compile("\s*endmodule\s*(:\s*\w+)?")
         self.group = 1
 
@@ -99,6 +104,7 @@ class BaseModuleLineMatchBroadcaster(lw.Broadcaster, lw.Listener):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.disable() # disable the base-class. all children need to enable in their constructor
         self.group = None
 
     def update_moduleline(self, line_no, line):
@@ -118,6 +124,7 @@ class BeginCaseBroadcaster(BaseModuleLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.enable()
         self.regex = re.compile("\s*((priority|unique)\s+)*case\s*\(.+\)")
 
 
@@ -126,6 +133,7 @@ class EndCaseBroadcaster(BaseModuleLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.enable()
         self.regex = re.compile("\s*endcase")
 
 
@@ -134,6 +142,7 @@ class AutoRegInputBroadcaster(BaseModuleLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.enable()
         self.regex = re.compile("\s*/\*\s*AUTOREGINPUT\s*\*/")
 
 
@@ -142,6 +151,7 @@ class AutoWireBroadcaster(BaseModuleLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.enable()
         self.regex = re.compile("\s*/\*\s*AUTOWIRE\s*\*/")
 
 
@@ -150,6 +160,7 @@ class EndAutosBroadcaster(BaseModuleLineMatchBroadcaster):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.enable()
         self.regex = re.compile("\s*\/\/ End of automatics")
 
 
