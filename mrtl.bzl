@@ -14,8 +14,6 @@ def mrtl_test(name, srcs, ignored=[], waivers=[], tags=[]):
     for igrc in ignore_config:
         args.append("--igrc $(location {})".format(igrc))
 
-    # Need to leave this as a native.py_test instead of @rules_python because some versions of rules_python
-    # can't pass tags properly
     native.py_test(
         name = name,
         srcs = ["@lintworks//:main"],
