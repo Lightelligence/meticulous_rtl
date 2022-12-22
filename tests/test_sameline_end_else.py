@@ -3,7 +3,7 @@ from unittest import mock
 from io import StringIO
 
 from mrtl import filters
-from mrtl.sameline_end_else import SameLineEndElse
+from mrtl.same_line_end_else import SameLineEndElse
 
 import test
 
