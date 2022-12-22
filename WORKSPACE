@@ -56,7 +56,7 @@ pip_install(
 
 http_archive(
     name = "lintworks",
-    urls = ["https://github.com/Lightelligence/lintworks/archive/refs/tags/v0.0.2.tar.gz"],
     sha256 = "c1ceb55d02c8bab386288dec0816d306133552d321b111a26472f79695d8239f",
     strip_prefix = "lintworks-0.0.2",
+    urls = ["https://github.com/Lightelligence/lintworks/archive/refs/tags/v0.0.2.tar.gz"],
 )
