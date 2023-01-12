@@ -2,7 +2,7 @@
 
 def mrtl_test(name, srcs, ignored = [], waivers = [], tags = []):
     """Run meticulous_rtl on source files."""
-    ignore_config = ["//digital/rtl/scripts:mrtl.ignore"] + waivers
+    ignore_config = waivers
 
     args = [
         "--rc $(location @meticulous_rtl//mrtl:lw_rc.py)",

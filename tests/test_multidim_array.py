@@ -3,7 +3,7 @@ from unittest import mock
 from io import StringIO
 
 from mrtl import filters
-from mrtl.multidim_array import MultiDimArray
+from mrtl.multi_dim_array import MultiDimArray
 
 import test
 

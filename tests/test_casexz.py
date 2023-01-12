@@ -3,7 +3,7 @@ from unittest import mock
 from io import StringIO
 
 from mrtl import filters
-from mrtl.casexz import CaseXZ
+from mrtl.case_x_z import CaseXZ
 
 import test
 
